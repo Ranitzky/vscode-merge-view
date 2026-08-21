@@ -1,0 +1,88 @@
+{
+  "name": "svcode-merge-view",
+  "displayName": "Simple Merge View (GitKraken Style)",
+  "description": "A clean, intuitive 3-pane Git merge conflict editor with line-by-line selection inspired by GitKraken.",
+  "version": "0.1.0",
+  "publisher": "simple-merge",
+  "engines": {
+    "vscode": "^1.85.0"
+  },
+  "categories": [
+    "SCM Providers",
+    "Other"
+  ],
+  "keywords": [
+    "merge",
+    "conflict",
+    "git",
+    "gitkraken",
+    "diff",
+    "merge-view",
+    "3-way-merge"
+  ],
+  "main": "./dist/extension.js",
+  "activationEvents": [
+    "onStartupFinished"
+  ],
+  "contributes": {
+    "commands": [
+      {
+        "command": "svcode-merge-view.openMergeEditor",
+        "title": "Open Simple Merge View (GitKraken Style)",
+        "category": "Merge Conflict",
+        "icon": "$(git-merge)"
+      },
+      {
+        "command": "svcode-merge-view.openMergeEditorCurrent",
+        "title": "Resolve Current Conflict in Simple Merge View",
+        "category": "Merge Conflict"
+      }
+    ],
+    "menus": {
+      "editor/title": [
+        {
+          "command": "svcode-merge-view.openMergeEditor",
+          "when": "editorTextFocus",
+          "group": "navigation"
+        }
+      ],
+      "editor/context": [
+        {
+          "command": "svcode-merge-view.openMergeEditor",
+          "when": "editorTextFocus",
+          "group": "1_modification@100"
+        }
+      ]
+    },
+    "keybindings": [
+      {
+        "command": "svcode-merge-view.openMergeEditor",
+        "key": "ctrl+alt+m",
+        "mac": "cmd+alt+m",
+        "when": "editorTextFocus"
+      }
+    ]
+  },
+  "scripts": {
+    "vscode:prepublish": "npm run build",
+    "build": "node esbuild.config.js --production",
+    "watch": "node esbuild.config.js --watch",
+    "test": "vitest run"
+  },
+  "dependencies": {
+    "diff": "^7.0.0",
+    "lucide-react": "^1.16.0",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1"
+  },
+  "devDependencies": {
+    "@types/diff": "^7.0.0",
+    "@types/node": "^22.13.0",
+    "@types/react": "^18.3.18",
+    "@types/react-dom": "^18.3.5",
+    "@types/vscode": "^1.85.0",
+    "esbuild": "^0.25.0",
+    "typescript": "^5.7.3",
+    "vitest": "^3.0.5"
+  }
+}
