@@ -55,6 +55,22 @@ body, html {
   user-select: none;
 }
 
+svg {
+  display: inline-block;
+  vertical-align: middle;
+  flex-shrink: 0;
+  max-width: 100%;
+}
+
+.w-3, svg.w-3 { width: 12px; height: 12px; }
+.w-3\.5, svg.w-3\.5 { width: 14px; height: 14px; }
+.w-4, svg.w-4 { width: 14px; height: 14px; }
+.w-8, svg.w-8 { width: 24px; height: 24px; }
+.h-3, svg.h-3 { height: 12px; }
+.h-3\.5, svg.h-3\.5 { height: 14px; }
+.h-4, svg.h-4 { height: 14px; }
+.h-8, svg.h-8 { height: 24px; }
+
 .app-container {
   display: flex;
   flex-direction: column;
