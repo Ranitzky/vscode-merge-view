@@ -1,7 +1,8 @@
 import * as vscode from 'vscode';
 import * as path from 'path';
 import { parseConflictDocument } from './conflictParser.js';
-import { ExtensionToWebviewMessage, WebviewToExtensionMessage } from './types.js';
+import { ExtensionToWebviewMessage, WebviewToExtensionMessage, ParsedConflictDocument } from './types.js';
+import { tokenizeLines } from './highlighter.js';
 
 export class MergeViewPanel {
   public static currentPanel: MergeViewPanel | undefined;
@@ -15,11 +16,10 @@ export class MergeViewPanel {
       ? vscode.window.activeTextEditor.viewColumn
       : undefined;
 
-    // If we already have a panel for this document, reveal it
     if (MergeViewPanel.currentPanel) {
       MergeViewPanel.currentPanel._document = document;
       MergeViewPanel.currentPanel._panel.reveal(column);
-      MergeViewPanel.currentPanel._update();
+      MergeViewPanel.currentPanel.update();
       return;
     }
 
@@ -59,7 +59,7 @@ export class MergeViewPanel {
       async (message: WebviewToExtensionMessage) => {
         switch (message.type) {
           case 'READY': {
-            this._sendInitialDocument();
+            await this._sendInitialDocument();
             break;
           }
           case 'SAVE_AND_RESOLVE': {
@@ -74,10 +74,9 @@ export class MergeViewPanel {
 
     // Listen for external changes to the document
     vscode.workspace.onDidChangeTextDocument(
-      (e) => {
+      async (e) => {
         if (e.document.uri.toString() === this._document.uri.toString()) {
-          // Re-parse and update webview if not initiated by us
-          this._update();
+          await this.update();
         }
       },
       null,
@@ -85,27 +84,42 @@ export class MergeViewPanel {
     );
   }
 
-  private _sendInitialDocument() {
+  private async _enrichDocumentWithTokens(parsed: ParsedConflictDocument): Promise<ParsedConflictDocument> {
+    const fileName = this._document.fileName;
+    for (const chunk of parsed.chunks) {
+      if (chunk.type === 'context') {
+        chunk.tokenizedLines = await tokenizeLines(chunk.lines, fileName);
+      } else if (chunk.type === 'conflict') {
+        chunk.currentTokenizedLines = await tokenizeLines(chunk.currentLines, fileName);
+        chunk.incomingTokenizedLines = await tokenizeLines(chunk.incomingLines, fileName);
+      }
+    }
+    return parsed;
+  }
+
+  private async _sendInitialDocument() {
     const rawText = this._document.getText();
     const parsed = parseConflictDocument(rawText);
+    const enriched = await this._enrichDocumentWithTokens(parsed);
 
     const msg: ExtensionToWebviewMessage = {
       type: 'INIT_DOCUMENT',
       filePath: this._document.fileName,
       fileName: path.basename(this._document.fileName),
-      parsed,
+      parsed: enriched,
     };
 
     this._panel.webview.postMessage(msg);
   }
 
-  private _update() {
+  public async update() {
     const rawText = this._document.getText();
     const parsed = parseConflictDocument(rawText);
+    const enriched = await this._enrichDocumentWithTokens(parsed);
 
     const msg: ExtensionToWebviewMessage = {
       type: 'DOCUMENT_UPDATED',
-      parsed,
+      parsed: enriched,
     };
 
     this._panel.webview.postMessage(msg);

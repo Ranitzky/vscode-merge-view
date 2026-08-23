@@ -106,6 +106,24 @@ export function activate(context: vscode.ExtensionContext) {
     })
   );
 
+  context.subscriptions.push(
+    vscode.window.onDidChangeActiveColorTheme(async () => {
+      if (MergeViewPanel.currentPanel) {
+        await MergeViewPanel.currentPanel.update();
+      }
+    })
+  );
+
+  context.subscriptions.push(
+    vscode.workspace.onDidChangeConfiguration(async (e) => {
+      if (e.affectsConfiguration('workbench.colorTheme')) {
+        if (MergeViewPanel.currentPanel) {
+          await MergeViewPanel.currentPanel.update();
+        }
+      }
+    })
+  );
+
   // Initial status bar check
   updateStatusBar(vscode.window.activeTextEditor);
 

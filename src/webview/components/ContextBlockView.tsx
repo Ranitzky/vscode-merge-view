@@ -1,9 +1,11 @@
 import React, { useState } from 'react';
 import { ContextChunk } from '../../types.js';
+import { renderTokens } from '../utils/tokenRenderer.js';
 import { LayersIcon } from './Icons.js';
 
 interface ContextBlockViewProps {
   chunk: ContextChunk;
+
 }
 
 export const ContextBlockView: React.FC<ContextBlockViewProps> = ({ chunk }) => {
@@ -21,7 +23,9 @@ export const ContextBlockView: React.FC<ContextBlockViewProps> = ({ chunk }) => 
         {topLines.map((line, idx) => (
           <div key={`top-${idx}`} className="context-row">
             <div className="context-gutter">{chunk.startOriginalLine + idx}</div>
-            <div className="context-content">{line || ' '}</div>
+            <div className="context-content">
+              {renderTokens(chunk.tokenizedLines?.[idx], line)}
+            </div>
           </div>
         ))}
 
@@ -30,16 +34,19 @@ export const ContextBlockView: React.FC<ContextBlockViewProps> = ({ chunk }) => 
           onClick={() => setIsExpanded(true)}
           title="Click to expand context"
         >
-          <LayersIcon className="w-3.5 h-3.5" />
+          <LayersIcon className="w-3.5 h-3.5" size={13} />
           <span>Show {hiddenCount} unchanged lines</span>
         </div>
 
         {bottomLines.map((line, idx) => {
           const actualLineNo = chunk.startOriginalLine + chunk.lines.length - previewLinesCount + idx;
+          const tokenIdx = chunk.lines.length - previewLinesCount + idx;
           return (
             <div key={`bottom-${idx}`} className="context-row">
               <div className="context-gutter">{actualLineNo}</div>
-              <div className="context-content">{line || ' '}</div>
+              <div className="context-content">
+                {renderTokens(chunk.tokenizedLines?.[tokenIdx], line)}
+              </div>
             </div>
           );
         })}
@@ -52,7 +59,9 @@ export const ContextBlockView: React.FC<ContextBlockViewProps> = ({ chunk }) => 
       {chunk.lines.map((line, idx) => (
         <div key={idx} className="context-row">
           <div className="context-gutter">{chunk.startOriginalLine + idx}</div>
-          <div className="context-content">{line || ' '}</div>
+          <div className="context-content">
+            {renderTokens(chunk.tokenizedLines?.[idx], line)}
+          </div>
         </div>
       ))}
     </div>

@@ -1,8 +1,11 @@
 import React, { useState } from 'react';
 import { EyeIcon, Edit3Icon, CheckIcon, LayersIcon } from './Icons.js';
+import { AssembledLineItem } from '../../mergeEngine.js';
+import { renderTokens } from '../utils/tokenRenderer.js';
 
 interface ResultEditorProps {
-  assembledText: string;
+  assembledItems: AssembledLineItem[];
+  rawAssembledText: string;
   unresolvedCount: number;
   totalConflicts: number;
   isDirectEditMode: boolean;
@@ -11,7 +14,8 @@ interface ResultEditorProps {
 }
 
 export const ResultEditor: React.FC<ResultEditorProps> = ({
-  assembledText,
+  assembledItems,
+  rawAssembledText,
   unresolvedCount,
   totalConflicts,
   isDirectEditMode,
@@ -19,11 +23,10 @@ export const ResultEditor: React.FC<ResultEditorProps> = ({
   onDirectEditChange,
 }) => {
   const [copied, setCopied] = useState(false);
-  const lines = assembledText.split(/\r?\n/);
   const allResolved = unresolvedCount === 0;
 
   const handleCopy = () => {
-    navigator.clipboard.writeText(assembledText);
+    navigator.clipboard.writeText(rawAssembledText);
     setCopied(true);
     setTimeout(() => setCopied(false), 1500);
   };
@@ -33,8 +36,8 @@ export const ResultEditor: React.FC<ResultEditorProps> = ({
       <div className="result-header">
         <div className="result-title-group">
           <span className="result-title">
-            <LayersIcon className="w-4 h-4" />
-            Result Output ({lines.length} lines)
+            <LayersIcon className="w-3.5 h-3.5" size={14} />
+            Result Output ({assembledItems.length} lines)
           </span>
 
           <span
@@ -54,7 +57,7 @@ export const ResultEditor: React.FC<ResultEditorProps> = ({
             onClick={handleCopy}
             title="Copy merged output to clipboard"
           >
-            {copied ? <CheckIcon className="w-3 h-3" /> : null}
+            {copied ? <CheckIcon className="w-3 h-3" size={12} /> : null}
             <span>{copied ? 'Copied!' : 'Copy'}</span>
           </button>
 
@@ -64,7 +67,7 @@ export const ResultEditor: React.FC<ResultEditorProps> = ({
               onClick={() => onToggleDirectEditMode(false)}
               title="Live interactive output synced with checkboxes"
             >
-              <EyeIcon className="w-3 h-3" />
+              <EyeIcon className="w-3 h-3" size={12} />
               Live Preview
             </button>
 
@@ -73,7 +76,7 @@ export const ResultEditor: React.FC<ResultEditorProps> = ({
               onClick={() => onToggleDirectEditMode(true)}
               title="Direct manual editing"
             >
-              <Edit3Icon className="w-3 h-3" />
+              <Edit3Icon className="w-3 h-3" size={12} />
               Direct Edit
             </button>
           </div>
@@ -84,17 +87,19 @@ export const ResultEditor: React.FC<ResultEditorProps> = ({
         {isDirectEditMode ? (
           <textarea
             className="result-textarea"
-            value={assembledText}
+            value={rawAssembledText}
             onChange={(e) => onDirectEditChange(e.target.value)}
             placeholder="Edit merged output manually here..."
             spellCheck={false}
           />
         ) : (
           <div className="result-lines-list">
-            {lines.map((line, idx) => (
+            {assembledItems.map((item, idx) => (
               <div key={idx} className="result-line-row">
                 <div className="result-line-gutter">{idx + 1}</div>
-                <div className="result-line-content">{line || ' '}</div>
+                <div className="result-line-content">
+                  {renderTokens(item.tokens, item.text)}
+                </div>
               </div>
             ))}
           </div>

@@ -1,12 +1,16 @@
-export interface LineItem {
-  index: number; // 0-indexed line within this side of conflict
+export interface CodeToken {
   text: string;
+  color?: string;
+  fontStyle?: number;
 }
+
+export type TokenizedLine = CodeToken[];
 
 export interface ContextChunk {
   type: 'context';
   id: string;
   lines: string[];
+  tokenizedLines?: TokenizedLine[];
   startOriginalLine: number;
 }
 
@@ -14,8 +18,8 @@ export type ResolutionType = 'unresolved' | 'current' | 'incoming' | 'both-curre
 
 export interface ConflictChunk {
   type: 'conflict';
-  id: string; // e.g. "conflict-0", "conflict-1"
-  conflictIndex: number; // 0-indexed among conflicts
+  id: string;
+  conflictIndex: number;
   startOriginalLine: number;
   endOriginalLine: number;
   currentLabel: string;
@@ -24,11 +28,13 @@ export interface ConflictChunk {
   currentLines: string[];
   incomingLines: string[];
   baseLines?: string[];
+  currentTokenizedLines?: TokenizedLine[];
+  incomingTokenizedLines?: TokenizedLine[];
   // Selection state: line indices (0-based within side) selected
   selectedCurrentLines: number[];
   selectedIncomingLines: number[];
   resolution: ResolutionType;
-  customText?: string; // if user edited directly for this block
+  customText?: string;
 }
 
 export type FileChunk = ContextChunk | ConflictChunk;

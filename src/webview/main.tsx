@@ -13,7 +13,7 @@ import { Header } from './components/Header.js';
 import { PaneHeader } from './components/PaneHeader.js';
 import { SplitView } from './components/SplitView.js';
 import { ResultEditor } from './components/ResultEditor.js';
-import { assembleDocument, isConflictResolved } from '../mergeEngine.js';
+import { assembleDocument, isConflictResolved, getAssembledLineItems } from '../mergeEngine.js';
 import { GitMergeIcon } from './components/Icons.js';
 
 // Declare VS Code API acquire function
@@ -75,6 +75,12 @@ export const App: React.FC = () => {
   // Labels for panes
   const currentLabel = conflictChunks[0]?.currentLabel || 'HEAD';
   const incomingLabel = conflictChunks[0]?.incomingLabel || 'Incoming Branch';
+
+  // Assembled result items (with token colors)
+  const assembledItems = useMemo(() => {
+    if (!parsed) return [];
+    return getAssembledLineItems(parsed.chunks);
+  }, [parsed]);
 
   // Assembled result text
   const assembledText = useMemo(() => {
@@ -264,7 +270,7 @@ export const App: React.FC = () => {
   if (!parsed) {
     return (
       <div className="empty-state">
-        <GitMergeIcon className="w-8 h-8" />
+        <GitMergeIcon className="w-8 h-8" size={24} />
         <p>Loading conflict data...</p>
       </div>
     );
@@ -273,7 +279,7 @@ export const App: React.FC = () => {
   if (totalConflicts === 0) {
     return (
       <div className="empty-state">
-        <GitMergeIcon className="w-8 h-8" />
+        <GitMergeIcon className="w-8 h-8" size={24} />
         <p>No merge conflicts found in this file.</p>
       </div>
     );
@@ -327,7 +333,8 @@ export const App: React.FC = () => {
           style={{ height: `${(1 - splitRatio) * 100}%` }}
         >
           <ResultEditor
-            assembledText={assembledText}
+            assembledItems={assembledItems}
+            rawAssembledText={assembledText}
             unresolvedCount={unresolvedCount}
             totalConflicts={totalConflicts}
             isDirectEditMode={isDirectEditMode}

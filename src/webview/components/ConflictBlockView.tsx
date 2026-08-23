@@ -1,8 +1,8 @@
-import React, { useMemo } from 'react';
+import React from 'react';
 import { ConflictChunk, ResolutionType } from '../../types.js';
-import { computeBlockDiffs, DiffSpan } from '../utils/diff.js';
-import { CheckIcon, RotateCcwIcon, CheckCheckIcon } from './Icons.js';
+import { RotateCcwIcon } from './Icons.js';
 import { isConflictResolved } from '../../mergeEngine.js';
+import { renderTokens } from '../utils/tokenRenderer.js';
 
 interface ConflictBlockViewProps {
   chunk: ConflictChunk;
@@ -23,12 +23,6 @@ export const ConflictBlockView: React.FC<ConflictBlockViewProps> = ({
   onSelectBlock,
 }) => {
   const isResolved = isConflictResolved(chunk);
-
-  const { currentDiffs, incomingDiffs } = useMemo(() => {
-    return computeBlockDiffs(chunk.currentLines, chunk.incomingLines);
-  }, [chunk.currentLines, chunk.incomingLines]);
-
-  const maxRows = Math.max(chunk.currentLines.length, chunk.incomingLines.length);
 
   const handleToggleCurrentLine = (index: number) => {
     const isSelected = chunk.selectedCurrentLines.includes(index);
@@ -81,20 +75,6 @@ export const ConflictBlockView: React.FC<ConflictBlockViewProps> = ({
   const handleClearBlock = (e: React.MouseEvent) => {
     e.stopPropagation();
     onUpdateConflict(chunk.id, [], [], 'unresolved');
-  };
-
-  const renderDiffSpans = (spans?: DiffSpan[]) => {
-    if (!spans || spans.length === 0) return null;
-    return spans.map((span, idx) => {
-      let spanClass = '';
-      if (span.type === 'added') spanClass = 'diff-added';
-      if (span.type === 'removed') spanClass = 'diff-removed';
-      return (
-        <span key={idx} className={spanClass}>
-          {span.text}
-        </span>
-      );
-    });
   };
 
   return (
@@ -151,7 +131,7 @@ export const ConflictBlockView: React.FC<ConflictBlockViewProps> = ({
             onClick={handleClearBlock}
             title="Clear selections for this conflict"
           >
-            <RotateCcwIcon className="w-3 h-3" />
+            <RotateCcwIcon className="w-3 h-3" size={12} />
             Clear
           </button>
         </div>
@@ -166,7 +146,7 @@ export const ConflictBlockView: React.FC<ConflictBlockViewProps> = ({
             chunk.currentLines.map((line, lineIdx) => {
               const isSelected = chunk.selectedCurrentLines.includes(lineIdx);
               const originalLineNum = chunk.startOriginalLine + 1 + lineIdx;
-              const diffSpans = currentDiffs[lineIdx];
+              const tokens = chunk.currentTokenizedLines?.[lineIdx];
 
               return (
                 <div
@@ -189,7 +169,7 @@ export const ConflictBlockView: React.FC<ConflictBlockViewProps> = ({
                     <span className="line-number">{originalLineNum}</span>
                   </div>
                   <div className="line-content">
-                    {renderDiffSpans(diffSpans) || (line || ' ')}
+                    {renderTokens(tokens, line)}
                   </div>
                 </div>
               );
@@ -204,10 +184,9 @@ export const ConflictBlockView: React.FC<ConflictBlockViewProps> = ({
           ) : (
             chunk.incomingLines.map((line, lineIdx) => {
               const isSelected = chunk.selectedIncomingLines.includes(lineIdx);
-              // Line number estimation for incoming
               const separatorOffset = chunk.currentLines.length + 1; // +1 for =======
               const originalLineNum = chunk.startOriginalLine + separatorOffset + 1 + lineIdx;
-              const diffSpans = incomingDiffs[lineIdx];
+              const tokens = chunk.incomingTokenizedLines?.[lineIdx];
 
               return (
                 <div
@@ -230,7 +209,7 @@ export const ConflictBlockView: React.FC<ConflictBlockViewProps> = ({
                     <span className="line-number">{originalLineNum}</span>
                   </div>
                   <div className="line-content">
-                    {renderDiffSpans(diffSpans) || (line || ' ')}
+                    {renderTokens(tokens, line)}
                   </div>
                 </div>
               );

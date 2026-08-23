@@ -2,34 +2,37 @@
   --bg-primary: var(--vscode-editor-background, #1e1e1e);
   --bg-secondary: var(--vscode-sideBar-background, #252526);
   --bg-tertiary: var(--vscode-editorGroupHeader-tabsBackground, #2d2d2d);
-  --fg-primary: var(--vscode-editor-foreground, #d4d4d4);
+  --fg-primary: var(--vscode-editor-foreground, #cccccc);
   --fg-muted: var(--vscode-descriptionForeground, #858585);
   --border-color: var(--vscode-editorGroup-border, #3c3c3c);
   --font-mono: var(--vscode-editor-font-family, Menlo, Monaco, 'Courier New', monospace);
   --font-sans: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
   --font-size-editor: var(--vscode-editor-font-size, 13px);
 
-  /* Current / Ours color palette (GitKraken green/cyan style) */
-  --current-accent: #00b4d8;
-  --current-bg-subtle: rgba(0, 180, 216, 0.08);
-  --current-border: rgba(0, 180, 216, 0.3);
-  --current-highlight: rgba(0, 180, 216, 0.2);
-  --current-text: #90e0ef;
+  /* Native VS Code Merge colors */
+  --current-bg-header: var(--vscode-merge-currentHeaderBackground, rgba(0, 180, 216, 0.15));
+  --current-bg-content: var(--vscode-merge-currentContentBackground, rgba(0, 180, 216, 0.04));
+  --current-highlight: var(--vscode-merge-currentHeaderBackground, rgba(0, 180, 216, 0.2));
+  --current-border: var(--vscode-merge-border, rgba(0, 180, 216, 0.3));
 
-  /* Incoming / Theirs color palette (GitKraken purple/violet style) */
-  --incoming-accent: #b5179e;
-  --incoming-bg-subtle: rgba(181, 23, 158, 0.08);
-  --incoming-border: rgba(181, 23, 158, 0.3);
-  --incoming-highlight: rgba(181, 23, 158, 0.2);
-  --incoming-text: #f72585;
+  --incoming-bg-header: var(--vscode-merge-incomingHeaderBackground, rgba(181, 23, 158, 0.15));
+  --incoming-bg-content: var(--vscode-merge-incomingContentBackground, rgba(181, 23, 158, 0.04));
+  --incoming-highlight: var(--vscode-merge-incomingHeaderBackground, rgba(181, 23, 158, 0.2));
+  --incoming-border: var(--vscode-merge-border, rgba(181, 23, 158, 0.3));
 
-  /* Resolved / Success palette */
-  --success-color: #2ec4b6;
+  /* Native Diff Text Highlights */
+  --diff-added-bg: var(--vscode-diffEditor-insertedTextBackground, rgba(46, 196, 182, 0.2));
+  --diff-added-border: var(--vscode-diffEditor-insertedTextBorder, transparent);
+  --diff-removed-bg: var(--vscode-diffEditor-removedTextBackground, rgba(247, 37, 133, 0.2));
+  --diff-removed-border: var(--vscode-diffEditor-removedTextBorder, transparent);
+
+  /* Status Colors */
+  --success-color: var(--vscode-gitDecoration-addedResourceForeground, #2ec4b6);
   --success-bg: rgba(46, 196, 182, 0.12);
-  --warning-color: #ff9f1c;
+  --warning-color: var(--vscode-gitDecoration-modifiedResourceForeground, #ff9f1c);
   --warning-bg: rgba(255, 159, 28, 0.12);
 
-  /* VS Code Button colors */
+  /* Button colors */
   --btn-bg: var(--vscode-button-background, #007acc);
   --btn-fg: var(--vscode-button-foreground, #ffffff);
   --btn-hover: var(--vscode-button-hoverBackground, #0062a3);
@@ -59,7 +62,6 @@ svg {
   display: inline-block;
   vertical-align: middle;
   flex-shrink: 0;
-  max-width: 100%;
 }
 
 .w-3, svg.w-3 { width: 12px; height: 12px; }
@@ -84,31 +86,32 @@ svg {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 8px 16px;
+  padding: 6px 12px;
   background-color: var(--bg-secondary);
   border-bottom: 1px solid var(--border-color);
   flex-shrink: 0;
-  gap: 12px;
+  gap: 8px;
   z-index: 10;
+  flex-wrap: wrap;
 }
 
 .header-left {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  min-width: 0;
-}
-
-.header-title-group {
   display: flex;
   align-items: center;
   gap: 8px;
   min-width: 0;
 }
 
+.header-title-group {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  min-width: 0;
+}
+
 .header-title {
   font-weight: 600;
-  font-size: 14px;
+  font-size: 13px;
   white-space: nowrap;
 }
 
@@ -117,42 +120,43 @@ svg {
   font-size: 11px;
   background-color: var(--bg-tertiary);
   color: var(--fg-primary);
-  padding: 2px 8px;
+  padding: 2px 6px;
   border-radius: 4px;
   border: 1px solid var(--border-color);
   text-overflow: ellipsis;
   overflow: hidden;
   white-space: nowrap;
-  max-width: 320px;
+  max-width: 200px;
 }
 
 .header-center {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 6px;
   flex-shrink: 0;
 }
 
 .conflict-badge {
   display: inline-flex;
   align-items: center;
-  gap: 6px;
-  padding: 4px 10px;
+  gap: 5px;
+  padding: 3px 8px;
   border-radius: 12px;
   font-weight: 500;
-  font-size: 12px;
+  font-size: 11px;
+  white-space: nowrap;
 }
 
 .conflict-badge.has-unresolved {
   background-color: var(--warning-bg);
   color: var(--warning-color);
-  border: 1px solid rgba(255, 159, 28, 0.4);
+  border: 1px solid rgba(255, 159, 28, 0.3);
 }
 
 .conflict-badge.all-resolved {
   background-color: var(--success-bg);
   color: var(--success-color);
-  border: 1px solid rgba(46, 196, 182, 0.4);
+  border: 1px solid rgba(46, 196, 182, 0.3);
 }
 
 .nav-button-group {
@@ -168,7 +172,7 @@ svg {
   background: none;
   border: none;
   color: var(--fg-primary);
-  padding: 5px 8px;
+  padding: 4px 6px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -185,16 +189,10 @@ svg {
   cursor: not-allowed;
 }
 
-.nav-btn-divider {
-  width: 1px;
-  height: 16px;
-  background-color: var(--border-color);
-}
-
 .header-right {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 6px;
   flex-shrink: 0;
 }
 
@@ -203,8 +201,8 @@ svg {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 6px;
-  padding: 6px 12px;
+  gap: 5px;
+  padding: 4px 10px;
   border-radius: 4px;
   font-size: 12px;
   font-weight: 500;
@@ -215,7 +213,7 @@ svg {
 }
 
 .btn-sm {
-  padding: 3px 8px;
+  padding: 2px 6px;
   font-size: 11px;
 }
 
@@ -229,21 +227,13 @@ svg {
 }
 
 .btn-success {
-  background-color: #2a9d8f;
-  color: #ffffff;
-}
-
-.btn-success:hover {
-  background-color: #21867a;
+  background-color: var(--vscode-button-background, #2a9d8f);
+  color: var(--btn-fg);
 }
 
 .btn-secondary {
   background-color: var(--btn-sec-bg);
   color: var(--btn-sec-fg);
-}
-
-.btn-secondary:hover {
-  background-color: var(--btn-sec-hover);
 }
 
 .btn-outline {
@@ -268,14 +258,15 @@ svg {
 .top-split-container {
   display: flex;
   flex-direction: column;
-  min-height: 120px;
+  min-height: 100px;
   overflow: hidden;
 }
 
 /* Pane Sub-headers (Current vs Incoming) */
 .pane-headers-row {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  width: 100%;
   background-color: var(--bg-secondary);
   border-bottom: 1px solid var(--border-color);
   flex-shrink: 0;
@@ -285,60 +276,49 @@ svg {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 6px 14px;
+  padding: 5px 10px;
+  min-width: 0;
+  overflow: hidden;
 }
 
 .pane-header-cell.current {
   border-right: 1px solid var(--border-color);
-  background-color: var(--current-bg-subtle);
-  border-left: 3px solid var(--current-accent);
+  background-color: var(--current-bg-header);
 }
 
 .pane-header-cell.incoming {
-  background-color: var(--incoming-bg-subtle);
-  border-left: 3px solid var(--incoming-accent);
+  background-color: var(--incoming-bg-header);
 }
 
 .pane-label-group {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 6px;
   min-width: 0;
+  overflow: hidden;
 }
 
 .pane-title {
   font-weight: 600;
-  font-size: 12px;
+  font-size: 11px;
   display: flex;
   align-items: center;
-  gap: 6px;
-}
-
-.pane-title.current {
-  color: var(--current-text);
-}
-
-.pane-title.incoming {
-  color: var(--incoming-text);
+  gap: 5px;
+  white-space: nowrap;
+  color: var(--fg-primary);
 }
 
 .branch-name-tag {
   font-family: var(--font-mono);
-  font-size: 11px;
+  font-size: 10px;
   background: rgba(0, 0, 0, 0.25);
-  padding: 1px 6px;
+  padding: 1px 5px;
   border-radius: 3px;
   border: 1px solid var(--border-color);
-  max-width: 180px;
+  max-width: 140px;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
-}
-
-.pane-actions {
-  display: flex;
-  align-items: center;
-  gap: 4px;
 }
 
 /* Scrollable Diff View Body */
@@ -351,8 +331,8 @@ svg {
 
 /* Conflict Chunks in Diff View */
 .conflict-block {
-  margin: 12px 12px;
-  border-radius: 6px;
+  margin: 8px 8px;
+  border-radius: 4px;
   border: 1px solid var(--border-color);
   background-color: var(--bg-secondary);
   overflow: hidden;
@@ -361,15 +341,15 @@ svg {
 
 .conflict-block.active {
   border-color: var(--btn-bg);
-  box-shadow: 0 0 0 2px rgba(0, 122, 204, 0.3);
+  box-shadow: 0 0 0 1px var(--btn-bg);
 }
 
 .conflict-block.resolved {
-  border-color: rgba(46, 196, 182, 0.5);
+  border-color: rgba(46, 196, 182, 0.4);
 }
 
 .conflict-block.unresolved {
-  border-color: rgba(255, 159, 28, 0.5);
+  border-color: rgba(255, 159, 28, 0.4);
 }
 
 /* Conflict Block Mini Toolbar */
@@ -377,25 +357,27 @@ svg {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 6px 12px;
+  padding: 4px 8px;
   background-color: var(--bg-tertiary);
   border-bottom: 1px solid var(--border-color);
-  font-size: 12px;
+  font-size: 11px;
+  flex-wrap: wrap;
+  gap: 4px;
 }
 
 .conflict-block-title {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 6px;
   font-weight: 600;
 }
 
 .conflict-status-pill {
-  font-size: 10px;
+  font-size: 9px;
   font-weight: 600;
   text-transform: uppercase;
-  padding: 1px 6px;
-  border-radius: 10px;
+  padding: 1px 5px;
+  border-radius: 8px;
   letter-spacing: 0.5px;
 }
 
@@ -412,13 +394,15 @@ svg {
 .conflict-quick-buttons {
   display: flex;
   align-items: center;
-  gap: 4px;
+  gap: 3px;
+  flex-wrap: wrap;
 }
 
 /* Grid for Side-by-Side Lines */
 .conflict-columns {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  width: 100%;
 }
 
 .conflict-col {
@@ -427,29 +411,33 @@ svg {
   font-family: var(--font-mono);
   font-size: var(--font-size-editor);
   line-height: 1.5;
+  min-width: 0;
+  overflow-x: auto;
   user-select: text;
 }
 
 .conflict-col.current {
   border-right: 1px solid var(--border-color);
-  background-color: rgba(0, 180, 216, 0.02);
+  background-color: var(--current-bg-content);
 }
 
 .conflict-col.incoming {
-  background-color: rgba(181, 23, 158, 0.02);
+  background-color: var(--incoming-bg-content);
 }
 
 /* Line Row */
 .line-row {
   display: flex;
   align-items: stretch;
-  min-height: 22px;
+  min-height: 20px;
+  min-width: 0;
+  width: 100%;
   cursor: pointer;
   transition: background-color 0.1s ease;
 }
 
 .line-row:hover {
-  background-color: rgba(255, 255, 255, 0.05);
+  background-color: rgba(255, 255, 255, 0.04);
 }
 
 .line-row.selected.current {
@@ -465,27 +453,27 @@ svg {
   align-items: center;
   justify-content: center;
   padding: 0 4px;
-  gap: 6px;
-  min-width: 54px;
+  gap: 4px;
+  min-width: 46px;
   background-color: rgba(0, 0, 0, 0.15);
   border-right: 1px solid rgba(255, 255, 255, 0.05);
-  color: var(--fg-muted);
+  color: var(--vscode-editorLineNumber-foreground, var(--fg-muted));
   font-size: 11px;
   user-select: none;
   flex-shrink: 0;
 }
 
 .line-number {
-  min-width: 24px;
+  min-width: 20px;
   text-align: right;
 }
 
 /* Custom Styled Checkbox */
 .line-checkbox {
   appearance: none;
-  width: 14px;
-  height: 14px;
-  border-radius: 3px;
+  width: 13px;
+  height: 13px;
+  border-radius: 2px;
   border: 1px solid var(--border-color);
   background-color: var(--bg-tertiary);
   cursor: pointer;
@@ -495,6 +483,7 @@ svg {
   position: relative;
   transition: all 0.15s ease;
   margin: 0;
+  flex-shrink: 0;
 }
 
 .line-checkbox:checked {
@@ -502,20 +491,10 @@ svg {
   border-color: var(--btn-bg);
 }
 
-.line-checkbox.current:checked {
-  background-color: var(--current-accent);
-  border-color: var(--current-accent);
-}
-
-.line-checkbox.incoming:checked {
-  background-color: var(--incoming-accent);
-  border-color: var(--incoming-accent);
-}
-
 .line-checkbox:checked::after {
   content: '';
-  width: 4px;
-  height: 8px;
+  width: 3px;
+  height: 7px;
   border: solid white;
   border-width: 0 2px 2px 0;
   transform: rotate(45deg) translate(-1px, -1px);
@@ -524,77 +503,85 @@ svg {
 
 .line-content {
   flex: 1;
-  padding: 2px 8px;
-  white-space: pre-wrap;
-  word-break: break-all;
+  min-width: 0;
+  padding: 1px 6px;
+  white-space: pre;
+  overflow-x: auto;
+  color: var(--fg-primary);
 }
 
-/* Inline word-level diff spans */
+/* Native-style subtle diff word spans */
 .diff-added {
-  background-color: rgba(46, 196, 182, 0.35);
-  color: #bbf7d0;
+  background-color: var(--diff-added-bg);
+  border: 1px solid var(--diff-added-border);
   border-radius: 2px;
-  padding: 0 1px;
+  padding: 0 2px;
+  margin: 0 1px;
 }
 
 .diff-removed {
-  background-color: rgba(247, 37, 133, 0.35);
-  color: #fecdd3;
+  background-color: var(--diff-removed-bg);
+  border: 1px solid var(--diff-removed-border);
   border-radius: 2px;
-  padding: 0 1px;
+  padding: 0 2px;
+  margin: 0 1px;
 }
 
 .empty-line-placeholder {
   color: var(--fg-muted);
   font-style: italic;
-  padding: 4px 8px;
+  padding: 3px 6px;
   opacity: 0.6;
 }
 
 /* Context Block */
 .context-block {
-  margin: 0 12px;
+  margin: 0 8px;
   font-family: var(--font-mono);
   font-size: var(--font-size-editor);
-  color: var(--fg-muted);
+  color: var(--fg-primary);
   user-select: text;
 }
 
 .context-row {
   display: flex;
   align-items: stretch;
-  min-height: 20px;
+  min-height: 19px;
+  min-width: 0;
+  width: 100%;
 }
 
 .context-row:hover {
   background-color: rgba(255, 255, 255, 0.02);
-  color: var(--fg-primary);
 }
 
 .context-gutter {
-  min-width: 54px;
-  padding: 0 8px;
+  min-width: 46px;
+  padding: 0 6px;
   text-align: right;
   border-right: 1px solid rgba(255, 255, 255, 0.05);
   background-color: rgba(0, 0, 0, 0.05);
+  color: var(--vscode-editorLineNumber-foreground, var(--fg-muted));
   user-select: none;
   font-size: 11px;
+  flex-shrink: 0;
 }
 
 .context-content {
-  padding: 1px 8px;
-  white-space: pre-wrap;
-  word-break: break-all;
+  padding: 1px 6px;
+  white-space: pre;
+  overflow-x: auto;
   flex: 1;
+  min-width: 0;
 }
 
 .context-collapsed-banner {
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 8px;
-  padding: 4px 0;
-  margin: 4px 12px;
+  gap: 6px;
+  padding: 3px 0;
+  margin: 3px 8px;
   background-color: var(--bg-tertiary);
   border-radius: 4px;
   font-size: 11px;
@@ -611,7 +598,7 @@ svg {
 
 /* Resizable Divider */
 .split-resizer {
-  height: 6px;
+  height: 5px;
   background-color: var(--bg-secondary);
   border-top: 1px solid var(--border-color);
   border-bottom: 1px solid var(--border-color);
@@ -628,7 +615,7 @@ svg {
 }
 
 .split-resizer-handle {
-  width: 32px;
+  width: 28px;
   height: 2px;
   border-radius: 1px;
   background-color: var(--fg-muted);
@@ -639,7 +626,7 @@ svg {
   display: flex;
   flex-direction: column;
   flex: 1;
-  min-height: 120px;
+  min-height: 100px;
   overflow: hidden;
   background-color: var(--bg-primary);
 }
@@ -648,42 +635,45 @@ svg {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 6px 14px;
+  padding: 5px 10px;
   background-color: var(--bg-secondary);
   border-bottom: 1px solid var(--border-color);
   flex-shrink: 0;
+  gap: 6px;
+  flex-wrap: wrap;
 }
 
 .result-title-group {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 8px;
+  min-width: 0;
 }
 
 .result-title {
   font-weight: 600;
-  font-size: 13px;
+  font-size: 12px;
   display: flex;
   align-items: center;
-  gap: 6px;
+  gap: 5px;
+  white-space: nowrap;
 }
 
 .result-status-tag {
   font-size: 11px;
-  padding: 2px 8px;
-  border-radius: 4px;
+  padding: 1px 6px;
+  border-radius: 3px;
+  white-space: nowrap;
 }
 
 .result-status-tag.all-resolved {
   background-color: var(--success-bg);
   color: var(--success-color);
-  border: 1px solid rgba(46, 196, 182, 0.4);
 }
 
 .result-status-tag.has-unresolved {
   background-color: var(--warning-bg);
   color: var(--warning-color);
-  border: 1px solid rgba(255, 159, 28, 0.4);
 }
 
 .result-mode-tabs {
@@ -701,19 +691,18 @@ svg {
   border: none;
   color: var(--fg-muted);
   font-size: 11px;
-  padding: 3px 8px;
+  padding: 2px 6px;
   border-radius: 3px;
   cursor: pointer;
   display: flex;
   align-items: center;
-  gap: 4px;
+  gap: 3px;
 }
 
 .result-tab-btn.active {
   background-color: var(--bg-primary);
   color: var(--fg-primary);
   font-weight: 500;
-  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
 }
 
 .result-editor-body {
@@ -734,7 +723,9 @@ svg {
 .result-line-row {
   display: flex;
   align-items: stretch;
-  min-height: 22px;
+  min-height: 20px;
+  min-width: 0;
+  width: 100%;
 }
 
 .result-line-row:hover {
@@ -742,10 +733,10 @@ svg {
 }
 
 .result-line-gutter {
-  min-width: 50px;
-  padding: 0 8px;
+  min-width: 46px;
+  padding: 0 6px;
   text-align: right;
-  color: var(--fg-muted);
+  color: var(--vscode-editorLineNumber-foreground, var(--fg-muted));
   background-color: rgba(0, 0, 0, 0.1);
   border-right: 1px solid rgba(255, 255, 255, 0.05);
   font-size: 11px;
@@ -754,10 +745,12 @@ svg {
 }
 
 .result-line-content {
-  padding: 2px 10px;
-  white-space: pre-wrap;
-  word-break: break-all;
+  padding: 1px 8px;
+  white-space: pre;
+  overflow-x: auto;
   flex: 1;
+  min-width: 0;
+  color: var(--fg-primary);
 }
 
 .result-textarea {
@@ -771,7 +764,7 @@ svg {
   font-family: var(--font-mono);
   font-size: var(--font-size-editor);
   line-height: 1.5;
-  padding: 8px 12px;
+  padding: 6px 10px;
   user-select: text;
 }
 
@@ -786,4 +779,155 @@ svg {
   text-align: center;
   color: var(--fg-muted);
   gap: 12px;
+}
+
+/* ==========================================================================
+   Syntax Highlighting (Standard VS Code Code Colors)
+   ========================================================================== */
+
+/* Dark themes (default) */
+.token.comment,
+.token.prolog,
+.token.doctype,
+.token.cdata {
+  color: var(--vscode-editorComments-foreground, #6a9955);
+  font-style: italic;
+}
+
+.token.punctuation {
+  color: #d4d4d4;
+}
+
+.token.keyword {
+  color: #569cd6;
+}
+
+.token.keyword.keyword-import,
+.token.keyword.keyword-export,
+.token.keyword.keyword-from,
+.token.keyword.keyword-return,
+.token.keyword.keyword-if,
+.token.keyword.keyword-else,
+.token.keyword.keyword-for,
+.token.keyword.keyword-while,
+.token.keyword.keyword-async,
+.token.keyword.keyword-await,
+.token.keyword.keyword-switch,
+.token.keyword.keyword-case,
+.token.keyword.keyword-default,
+.token.keyword.keyword-try,
+.token.keyword.keyword-catch {
+  color: #c586c0;
+}
+
+.token.string,
+.token.char,
+.token.attr-value {
+  color: #ce9178;
+}
+
+.token.function,
+.token.function-variable {
+  color: #dcdcaa;
+}
+
+.token.class-name,
+.token.interface-name,
+.token.type,
+.token.type-annotation,
+.token.builtin,
+.token.known-class-name {
+  color: #4ec9b0;
+}
+
+.token.variable,
+.token.property,
+.token.parameter,
+.token.imports,
+.token.exports,
+.token.attr-name {
+  color: #9cdcfe;
+}
+
+.token.number {
+  color: #b5cea8;
+}
+
+.token.boolean,
+.token.constant {
+  color: #569cd6;
+}
+
+.token.operator {
+  color: #d4d4d4;
+}
+
+.token.regex {
+  color: #d16969;
+}
+
+.token.tag {
+  color: #569cd6;
+}
+
+/* VS Code Light themes */
+body.vscode-light .token.comment,
+body.vscode-light .token.prolog,
+body.vscode-light .token.doctype,
+body.vscode-light .token.cdata {
+  color: #008000;
+  font-style: italic;
+}
+
+body.vscode-light .token.punctuation {
+  color: #000000;
+}
+
+body.vscode-light .token.keyword {
+  color: #0000ff;
+}
+
+body.vscode-light .token.keyword.keyword-import,
+body.vscode-light .token.keyword.keyword-export,
+body.vscode-light .token.keyword.keyword-from,
+body.vscode-light .token.keyword.keyword-return,
+body.vscode-light .token.keyword.keyword-if,
+body.vscode-light .token.keyword.keyword-else {
+  color: #af00db;
+}
+
+body.vscode-light .token.string,
+body.vscode-light .token.char,
+body.vscode-light .token.attr-value {
+  color: #a31515;
+}
+
+body.vscode-light .token.function {
+  color: #795e26;
+}
+
+body.vscode-light .token.class-name,
+body.vscode-light .token.builtin,
+body.vscode-light .token.type {
+  color: #267f99;
+}
+
+body.vscode-light .token.variable,
+body.vscode-light .token.property,
+body.vscode-light .token.parameter,
+body.vscode-light .token.imports,
+body.vscode-light .token.exports {
+  color: #001080;
+}
+
+body.vscode-light .token.number {
+  color: #098658;
+}
+
+body.vscode-light .token.boolean {
+  color: #0000ff;
+}
+
+body.vscode-light .token.operator {
+  color: #000000;
 }
