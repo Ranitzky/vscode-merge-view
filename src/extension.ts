@@ -35,7 +35,7 @@ class MergeConflictCodeLensProvider implements vscode.CodeLensProvider {
 
         codeLenses.push(
           new vscode.CodeLens(range, {
-            title: `✨ Open Simple Merge View (GitKraken Style)`,
+            title: `✨ Open Simple Merge View`,
             tooltip: `Open interactive merge resolver for this conflict`,
             command: 'svcode-merge-view.openMergeEditor',
             arguments: [document.uri],

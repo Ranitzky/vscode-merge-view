@@ -1,7 +1,7 @@
 {
   "name": "vscode-merge-view",
-  "displayName": "Simple Merge View (GitKraken Style)",
-  "description": "A clean, intuitive 3-pane Git merge conflict editor with line-by-line selection inspired by GitKraken.",
+  "displayName": "Simple Merge View",
+  "description": "A clean, intuitive 3-pane Git merge conflict editor with line-by-line selection.",
   "version": "0.1.0",
   "publisher": "simple-merge",
   "engines": {
@@ -15,7 +15,7 @@
     "merge",
     "conflict",
     "git",
-    "gitkraken",
+    "conflict-resolution",
     "diff",
     "merge-view",
     "3-way-merge"
@@ -28,7 +28,7 @@
     "commands": [
       {
         "command": "svcode-merge-view.openMergeEditor",
-        "title": "Open Simple Merge View (GitKraken Style)",
+        "title": "Open Simple Merge View",
         "category": "Merge Conflict",
         "icon": "$(git-merge)"
       },

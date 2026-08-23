@@ -1,6 +1,6 @@
-# Simple Merge View (GitKraken-Style for VS Code) 🐙⚡
+# Simple Merge View 🔀⚡
 
-Eine schlanke, intuitive 3-Pane Merge-Konflikt-Lösung für VS Code – inspiriert von der beliebten Ansicht in **GitKraken**.
+Eine schlanke, intuitive 3-Pane Merge-Konflikt-Lösung für VS Code mit zeilenweiser Auswahl und Live-Vorschau.
 
 ---
 
@@ -8,7 +8,7 @@ Eine schlanke, intuitive 3-Pane Merge-Konflikt-Lösung für VS Code – inspirie
 
 Die standardmäßige 3-Wege-Merge-Ansicht in VS Code ist oft überladen und unübersichtlich. **Simple Merge View** bietet eine aufgeräumte, klare Benutzeroberfläche mit:
 
-1. **3-Pane-Layout (GitKraken-Stil)**:
+1. **Intuitives 3-Pane-Layout**:
    - **Oben Links**: Current Branch (`HEAD` / Unsere Änderungen)
    - **Oben Rechts**: Incoming Branch (Ziel-Branch / Fremde Änderungen)
    - **Unten**: Live Output / Result Editor (Echtzeit-Vorschau & manuell editierbar)
@@ -45,7 +45,7 @@ Die standardmäßige 3-Wege-Merge-Ansicht in VS Code ist oft überladen und unü
 
 ### 1. Konflikt-Datei öffnen
 Sobald eine Datei mit Git-Merge-Konflikten (`<<<<<<<`, `=======`, `>>>>>>>`) in VS Code geöffnet wird, erscheint:
-- Ein **CodeLens-Button** direkt über jedem Konflikt: `✨ Open Simple Merge View (GitKraken Style)`
+- Ein **CodeLens-Button** direkt über jedem Konflikt: `✨ Open Simple Merge View`
 - Ein **Statusleisten-Eintrag** unten rechts: `$(git-merge) X Conflicts (Open Merge View)`
 - Ein **Editor-Action-Icon** oben rechts in der Editor-Titelleiste.
 
@@ -64,7 +64,7 @@ Sobald eine Datei mit Git-Merge-Konflikten (`<<<<<<<`, `=======`, `>>>>>>>`) in 
 
 1. **Repository in VS Code öffnen**:
    ```bash
-   code /Users/rico/Projects/svcode-merge-view
+   code /Users/rico/Projects/vscode-merge-view
    ```
 2. **Build / Watch starten**:
    ```bash
@@ -73,8 +73,8 @@ Sobald eine Datei mit Git-Merge-Konflikten (`<<<<<<<`, `=======`, `>>>>>>>`) in 
    ```
 3. **Erweiterung starten**:
    - Drücke `F5` in VS Code, um ein neues **Extension Development Host** Fenster zu starten.
-   - Öffne eine Datei mit Konfliktmarkern (z. B. [`examples/sample-conflict.ts`](file:///Users/rico/Projects/svcode-merge-view/examples/sample-conflict.ts)).
-   - Klicke auf `✨ Open Simple Merge View (GitKraken Style)`.
+   - Öffne eine Datei mit Konfliktmarkern (z. B. [`examples/sample-conflict.ts`](file:///Users/rico/Projects/vscode-merge-view/examples/sample-conflict.ts)).
+   - Klicke auf `✨ Open Simple Merge View`.
 
 ---
 
