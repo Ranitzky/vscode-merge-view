@@ -1,0 +1,10 @@
+Generated with the built-in image_gen tool.
+
+Use case: logo-brand
+Asset type: square marketplace icon for the VS Code extension Simple Merge View, a clean three-pane Git merge conflict editor with line-by-line selection.
+Primary request: Create a polished, distinctive app icon showing two source code panes merging into one resolved result pane. Two small panes above, one wider pane below, with a clear elegant merge connection. Use a few bold horizontal code strokes and a subtle checkmark in the result. Strong simple silhouette, generous padding, readable at 48px.
+Style/medium: precise contemporary flat raster app icon with restrained depth and crisp edges, professional developer-tool identity.
+Scene/backdrop: solid dark charcoal rounded-square tile, fully opaque image.
+Color palette: cool blue and teal source panes, fresh green resolved result, subdued charcoal background.
+Composition/framing: centered symbol fills the square with safe margins; balanced geometry.
+Constraints: no text, no letters, no watermark, no VS Code logo, no tiny UI details, no decorative objects. Square image.

@@ -11,6 +11,10 @@
     "SCM Providers",
     "Other"
   ],
+  "repository": {
+    "url": "https://github.com/simple-merge/vscode-merge-view"
+  },
+  "icon": "images/icon.png",
   "keywords": [
     "merge",
     "conflict",
@@ -67,7 +71,9 @@
     "vscode:prepublish": "npm run build",
     "build": "node esbuild.config.js --production",
     "watch": "node esbuild.config.js --watch",
-    "test": "vitest run"
+    "test": "vitest run",
+    "ext:package": "vsce package",
+    "ext:deploy": "vsce publish"
   },
   "dependencies": {
     "diff": "^7.0.0",

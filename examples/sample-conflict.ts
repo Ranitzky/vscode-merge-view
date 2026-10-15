@@ -1,4 +1,4 @@
-// Beispiel-Datei mit mehreren typischen Git-Merge-Konflikten
+// Sample file with multiple typical Git merge conflicts
 
 import { useState, useEffect } from 'react';
 
