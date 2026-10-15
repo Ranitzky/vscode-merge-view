@@ -3,7 +3,7 @@
   "displayName": "Simple Merge View",
   "description": "A clean, intuitive 3-pane Git merge conflict editor with line-by-line selection.",
   "version": "0.1.0",
-  "publisher": "simple-merge",
+  "publisher": "ricowilcke",
   "engines": {
     "vscode": "^1.85.0"
   },
@@ -72,7 +72,7 @@
     "build": "node esbuild.config.js --production",
     "watch": "node esbuild.config.js --watch",
     "test": "vitest run",
-    "ext:package": "vsce package",
+    "ext:build": "vsce package",
     "ext:deploy": "vsce publish"
   },
   "dependencies": {
