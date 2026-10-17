@@ -2,7 +2,7 @@
   "name": "vscode-merge-view",
   "displayName": "Simple Merge View",
   "description": "A clean, intuitive 3-pane Git merge conflict editor with line-by-line selection.",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "publisher": "ricowilcke",
   "engines": {
     "vscode": "^1.85.0"
